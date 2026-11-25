@@ -13,6 +13,10 @@ OUTPUT_PATH = "/output/entry.txt"
 
 
 def main():
+    # Gate guard: the sealed scorer only accepts 1-200 UTF-8 characters,
+    # exactly one line, not only whitespace.
+    if not 1 <= len(ENTRY) <= 200 or ENTRY.strip() == "" or "\n" in ENTRY:
+        raise ValueError("ENTRY must be one line of 1-200 characters")
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="\n") as f:
         f.write(ENTRY + "\n")
